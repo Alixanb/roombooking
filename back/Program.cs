@@ -6,7 +6,6 @@ using RoomBookingApi.Middlewares;
 using RoomBookingApi.Models;
 using RoomBookingApi.Services;
 using Serilog;
-using BCrypt.Net;
 
 namespace RoomBookingApi
 {
@@ -92,7 +91,7 @@ namespace RoomBookingApi
                             Lastname = "Admin",
                             Firstname = "Super",
                             Email = "admin@roombooking.com",
-                            Password = BCrypt.HashPassword("Admin1234"),
+                            Password = BCrypt.Net.BCrypt.HashPassword("Admin1234"),
                             Role = "admin",
                             Company = "",
                             Job = ""
