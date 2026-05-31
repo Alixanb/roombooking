@@ -69,5 +69,11 @@ const loginFunction = async () => {
         </ErrorMessage>
       </div>
     </form>
+
+    <div class="w-80 mx-auto mt-6 p-4 bg-amber-50 border border-amber-200 rounded-md text-sm text-amber-800">
+      <p class="font-semibold mb-2">Compte par défaut (admin)</p>
+      <p>Email : <button type="button" class="font-mono underline cursor-pointer" @click="loginRequest.email = 'admin@roombooking.com'">admin@roombooking.com</button></p>
+      <p>Mot de passe : <button type="button" class="font-mono underline cursor-pointer" @click="loginRequest.password = 'Admin1234'">Admin1234</button></p>
+    </div>
   </main>
 </template>

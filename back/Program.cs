@@ -6,6 +6,7 @@ using RoomBookingApi.Middlewares;
 using RoomBookingApi.Models;
 using RoomBookingApi.Services;
 using Serilog;
+using BCrypt.Net;
 
 namespace RoomBookingApi
 {
@@ -77,6 +78,29 @@ namespace RoomBookingApi
                 // });
 
                 var app = builder.Build();
+
+                // Apply pending migrations and seed default admin on startup
+                using (var scope = app.Services.CreateScope())
+                {
+                    var db = scope.ServiceProvider.GetRequiredService<RoomApiContext>();
+                    db.Database.Migrate();
+
+                    if (!db.Users.Any(u => u.Role == "admin"))
+                    {
+                        db.Users.Add(new User
+                        {
+                            Lastname = "Admin",
+                            Firstname = "Super",
+                            Email = "admin@roombooking.com",
+                            Password = BCrypt.HashPassword("Admin1234"),
+                            Role = "admin",
+                            Company = "",
+                            Job = ""
+                        });
+                        db.SaveChanges();
+                        Log.Information("Default admin account created: admin@roombooking.com");
+                    }
+                }
 
                 // Configure the HTTP request pipeline.
                 if (app.Environment.IsDevelopment())
