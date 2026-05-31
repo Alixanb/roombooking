@@ -1,0 +1,9 @@
+bin/
+obj/
+*.user
+.vs/
+room-booking.db
+room-booking.db-shm
+room-booking.db-wal
+appsettings.Development.json
+.env
