@@ -25,7 +25,7 @@ const updateUserFunction = async () => {
     user.value!.password = ''
     updateSucces.value = response
   } catch (error) {
-    updateError.value = error
+    updateError.value = String(error)
   }
 
   loading.value = false

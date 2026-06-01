@@ -17,10 +17,10 @@ const deleteRoomFunction = async (roomId: number) => {
   deleteError.value = ''
 
   try {
-    const response = await DeleteRoom({ roomId, token })
+    const response = await DeleteRoom({ roomId, token: token ?? '' })
     deleteSucces.value = response
   } catch (error) {
-    deleteError.value = error
+    deleteError.value = String(error)
   }
 }
 </script>

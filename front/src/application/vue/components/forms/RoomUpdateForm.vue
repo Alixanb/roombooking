@@ -25,7 +25,7 @@ onMounted(async () => {
   try {
     roomGroupe.value = await GetRoomGroupe()
   } catch (error) {
-    updateError.value = error
+    updateError.value = String(error)
   }
 })
 
@@ -43,7 +43,7 @@ const updateRoomFunction = async () => {
     })
     updateSucces.value = response
   } catch (error) {
-    updateError.value = error
+    updateError.value = String(error)
   }
 
   loading.value = false

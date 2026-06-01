@@ -6,7 +6,7 @@ import type { newBooking } from '@/domain/models/Booking'
 export function useAvailableHours(booking: newBooking, roomId: number) {
   const availableStartHours = ref<string[]>([])
   const availableEndHours = ref<string[]>([])
-  const errorHours = ref<string | unknown>()
+  const errorHours = ref<string>()
 
   const fetchAvailableHours = async () => {
     try {

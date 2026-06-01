@@ -21,10 +21,10 @@ const userError = ref<string>('')
 onMounted(async () => {
   try {
     const token = localStorage.getItem('jwtToken')
-    const response = await GetProfil(token)
+    const response = await GetProfil(token!)
     user.value = response
   } catch (error) {
-    userError.value = error
+    userError.value = String(error)
     LogoutFunction()
   }
   loading.value = false

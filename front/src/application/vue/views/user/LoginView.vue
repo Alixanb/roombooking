@@ -24,7 +24,7 @@ const loginFunction = async () => {
     await Login(loginRequest.value)
     router.push('/profil')
   } catch (error) {
-    logError.value = error
+    logError.value = String(error)
   }
 
   loading.value = false

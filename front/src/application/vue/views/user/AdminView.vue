@@ -25,7 +25,7 @@ const updateUsersAdminFunction = async () => {
     listUserSuccess.value = response
     listUserOrigin.value = JSON.parse(JSON.stringify(listUser.value))
   } catch (error) {
-    listUserError.value = error
+    listUserError.value = String(error)
     listUser.value = JSON.parse(JSON.stringify(listUserOrigin.value))
   }
 
@@ -39,7 +39,7 @@ onMounted(async () => {
     listUserFind.value = true
   } catch (error) {
     console.error('Erreur :', error)
-    listUserError.value = error
+    listUserError.value = String(error)
   }
   loading.value = false
 })

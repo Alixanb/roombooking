@@ -29,16 +29,16 @@ const booking = ref<BookingDto>({ ...props.bookingProps })
 
 const users = ref<Users[]>()
 const guests = ref<number[]>([])
-const rooms = ref([])
+const rooms = ref<{ id: number; name: string }[]>([])
 const equipments = ref<string[]>()
 const equipmentsForBooking = ref<NewEquipment[]>([])
 
-const updateError = ref<string | unknown>('')
-const updateSucces = ref<string | unknown>('')
+const updateError = ref<string>('')
+const updateSucces = ref<string>('')
 
 const { availableStartHours, availableEndHours, errorHours } =
   useAvailableHours(booking.value, booking.value.idRoom)
-if (errorHours) updateError.value = errorHours
+if (errorHours.value) updateError.value = errorHours.value
 
 onMounted(async () => {
   try {
@@ -53,7 +53,7 @@ onMounted(async () => {
 
     guests.value = booking.value.guestsId
   } catch (error) {
-    updateError.value = error
+    updateError.value = String(error)
   }
 })
 
@@ -72,7 +72,7 @@ const addBookingFunction = async () => {
     })
     updateSucces.value = response
   } catch (error) {
-    updateError.value = error
+    updateError.value = String(error)
   }
 
   loading.value = false

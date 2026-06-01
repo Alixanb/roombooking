@@ -2,13 +2,15 @@
 import { Calendar } from '@/application/vue/components/ui/calendar'
 import type { BookingDto } from '@/domain/models/Booking'
 import { GetBookingsRoom } from '@/domain/services/bookingService'
+import type { DateValue } from '@internationalized/date'
+import { getLocalTimeZone } from '@internationalized/date'
 import { format } from 'date-fns'
 import { onMounted, ref } from 'vue'
 
 const props = defineProps<{ roomId: number }>()
 
 const bookings = ref<BookingDto[]>([])
-const selectedDate = ref<Date>()
+const selectedDate = ref<DateValue>()
 const selectedDateBookings = ref<BookingDto[]>([])
 
 onMounted(async () => {
@@ -24,16 +26,24 @@ onMounted(async () => {
   }
 })
 
-const updateSelectedDateBookings = (date: Date) => {
-  selectedDate.value = date
+const toDateStr = (date: DateValue): string =>
+  `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`
 
+const updateSelectedDateBookings = (date: DateValue | undefined) => {
+  selectedDate.value = date
+  if (!date) {
+    selectedDateBookings.value = []
+    return
+  }
+  const dateStr = toDateStr(date)
   selectedDateBookings.value = bookings.value.filter(
-    booking => format(booking.day, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'),
+    booking => booking.day === dateStr,
   )
 }
 
-const isDateBooked = (date: Date) => {
-  return bookings.value.some(booking => booking.day === date)
+const isDateBooked = (date: DateValue) => {
+  const dateStr = toDateStr(date)
+  return bookings.value.some(booking => booking.day === dateStr)
 }
 </script>
 
@@ -52,7 +62,7 @@ const isDateBooked = (date: Date) => {
             :class="{ 'bg-blue-100 rounded-full': isDateBooked(date) }"
             class="w-full h-full flex items-center justify-center"
           >
-            {{ date.getDate() }}
+            {{ date.day }}
           </div>
         </template>
       </Calendar>
@@ -62,7 +72,7 @@ const isDateBooked = (date: Date) => {
         class="flex-1"
       >
         <h3 class="text-xl font-medium mb-4">
-          Réservations du {{ format(selectedDate, 'dd/MM/yyyy') }}
+          Réservations du {{ format(selectedDate.toDate(getLocalTimeZone()), 'dd/MM/yyyy') }}
         </h3>
         <ul class="space-y-4">
           <li

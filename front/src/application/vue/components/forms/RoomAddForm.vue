@@ -10,11 +10,14 @@ import IconLoading from '@/application/vue/components/icons/IconLoading.vue'
 const router = useRouter()
 const loading = ref(false)
 const room = ref<Room>({
+  id: 0,
   name: '',
+  picture: null,
+  pictureUrl: null,
   adress: '',
   adressComplements: '',
   groupe: '',
-  capacity: '',
+  capacity: 0,
   area: '',
   isAccessible: false,
   surface: '',
@@ -28,7 +31,7 @@ const addError = ref<string>('')
 onMounted(async () => {
   try {
     roomGroupe.value = await GetRoomGroupe()
-    room.value.groupe = roomGroupe.value[0]
+    room.value.groupe = roomGroupe.value?.[0] ?? ''
   } catch (error) {
     addError.value = error as string
   }

@@ -36,7 +36,7 @@ const deleteUserFunction = async () => {
       }
     }, 1000)
   } catch (error) {
-    deleteError.value = error
+    deleteError.value = String(error)
   }
 
   loading.value = false

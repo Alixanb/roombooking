@@ -1,5 +1,6 @@
 import apiClient from '@/infrastructure/utils/apiClient'
 import type { UserLog, UsersAdmin } from '@/domain/models/User'
+import { getErrorMessage } from '@/infrastructure/utils/errorUtils'
 
 export async function GetUsers() {
   try {
@@ -7,12 +8,7 @@ export async function GetUsers() {
     return response.data
   } catch (error) {
     console.error('Erreur lors de la récupération des utilisateurs :', error)
-    throw (
-      error?.response?.data?.message ||
-      (error?.response?.data?.errors &&
-        Object.values(error.response.data.errors).flat().join('. ')) ||
-      'Erreur lors de la récupération des utilisateurs'
-    )
+    throw getErrorMessage(error, 'Erreur lors de la récupération des utilisateurs')
   }
 }
 
@@ -22,12 +18,7 @@ export async function UpdateUser(user: UserLog) {
     return response.data.message
   } catch (error) {
     console.error('Erreur lors de la modification de votre compte :', error)
-    throw (
-      error?.response?.data?.message ||
-      (error?.response?.data?.errors &&
-        Object.values(error.response.data.errors).flat().join('. ')) ||
-      'Erreur lors de la modififcation de votre compte'
-    )
+    throw getErrorMessage(error, 'Erreur lors de la modififcation de votre compte')
   }
 }
 
@@ -37,12 +28,7 @@ export async function DeleteUser(userId: number) {
     return response.data.message
   } catch (error) {
     console.error('Erreur lors de la suppression de votre compte :', error)
-    throw (
-      error?.response?.data?.message ||
-      (error?.response?.data?.errors &&
-        Object.values(error.response.data.errors).flat().join('. ')) ||
-      'Erreur lors de la suppression de votre compte'
-    )
+    throw getErrorMessage(error, 'Erreur lors de la suppression de votre compte')
   }
 }
 
@@ -52,12 +38,7 @@ export async function GetUsersAdmin(token: string) {
     return response.data
   } catch (error) {
     console.error('Erreur lors de la récupération des utilisateurs :', error)
-    throw (
-      error?.response?.data?.message ||
-      (error?.response?.data?.errors &&
-        Object.values(error.response.data.errors).flat().join('. ')) ||
-      'Erreur lors de la récupération des utilisateurs'
-    )
+    throw getErrorMessage(error, 'Erreur lors de la récupération des utilisateurs')
   }
 }
 
@@ -66,15 +47,7 @@ export async function updateUsersAdmin(listUser: UsersAdmin[], token: string) {
     const response = await apiClient.put(`/user/admin/${token}`, listUser)
     return response.data.message
   } catch (error) {
-    console.error(
-      'Erreur lors de la modification des rôles des utilisateurs :',
-      error,
-    )
-    throw (
-      error?.response?.data?.message ||
-      (error?.response?.data?.errors &&
-        Object.values(error.response.data.errors).flat().join('. ')) ||
-      'Erreur lors de la modififcation des rôles des utilisateurs'
-    )
+    console.error('Erreur lors de la modification des rôles des utilisateurs :', error)
+    throw getErrorMessage(error, 'Erreur lors de la modififcation des rôles des utilisateurs')
   }
 }

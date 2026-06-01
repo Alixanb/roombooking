@@ -28,7 +28,7 @@ const registerFunction = async () => {
     await Register(registerRequest.value)
     router.push('/profil')
   } catch (error) {
-    resgiterError.value = error
+    resgiterError.value = String(error)
   }
 
   loading.value = false

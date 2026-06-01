@@ -38,7 +38,7 @@ const users = ref<Users[]>()
 const guests = ref<number[]>([])
 const equipments = ref<string[]>()
 const equipmentsForBooking = ref<NewEquipment[]>([])
-const rooms = ref([])
+const rooms = ref<{ id: number; name: string }[]>([])
 
 const addError = ref<string>('')
 
@@ -48,7 +48,7 @@ onMounted(async () => {
     equipments.value = await GetAvailableEquipments()
     rooms.value = await GetRoomsShort()
   } catch (error) {
-    addError.value = error
+    addError.value = String(error)
   }
 })
 
@@ -67,7 +67,7 @@ const addBookingFunction = async () => {
     })
     router.push(`/booking/${response}`)
   } catch (error) {
-    addError.value = error
+    addError.value = String(error)
   }
 
   loading.value = false
@@ -75,7 +75,7 @@ const addBookingFunction = async () => {
 
 const { availableStartHours, availableEndHours, errorHours } =
   useAvailableHours(booking.value, roomId)
-if (errorHours) addError.value = errorHours
+if (errorHours.value) addError.value = errorHours.value
 
 function toggleGuest(userId: number) {
   const index = guests.value.indexOf(userId)
