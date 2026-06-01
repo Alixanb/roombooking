@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import type { Room } from '@/domain/models/Room'
 import { usePictureUpload } from '@/application/vue/composables/usePictureUpload'
 import { GetRoomGroupe, UpdateRoom } from '@/domain/services/roomService'
@@ -18,8 +17,6 @@ const { pictureFile, errorPicture, handlePictureChange } = usePictureUpload()
 const roomGroupe = ref<string[]>()
 const updateError = ref<string>('')
 const updateSucces = ref<string>('')
-
-const timerNumber = ref<number>(5)
 
 onMounted(async () => {
   try {
